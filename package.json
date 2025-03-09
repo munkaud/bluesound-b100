@@ -1,5 +1,10 @@
 {
-  "name": "bluesound-companion",
+  "id": "bluesound-b100",
+  "name": "Bluesound B100 Companion Module",
+  "type": "external",
+  "platforms": ["companion"],
+  "description": "Companion Module to Control Bluesound Streaming player",
+  "author": "munkaud@gmail.com",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
