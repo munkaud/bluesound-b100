@@ -1,12 +1,12 @@
 const { InstanceBase, InstanceStatus } = require('@companion-module/base')
-console.log("Bluesound Module is loading.")
+
 
 class BluesoundInstance extends InstanceBase {
     async init(config) {
         this.config = config
         this.updateStatus(InstanceStatus.Ok)
         this.log('info', 'Bluesound Module Initialized')
-
+        console.log("Bluesound Module is loading.")
         this.initActions()
     }
 
