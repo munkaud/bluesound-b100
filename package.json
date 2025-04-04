@@ -1,0 +1,10 @@
+{
+  "name": "bluesound-test",
+  "version": "0.1.0",
+  "main": "main.js",
+  "packageManager": "yarn@1.22.22",
+  "license": "MIT",
+  "dependencies": {
+    "@companion-module/base": "^1.0.0"
+  }
+}

@@ -1,0 +1,27 @@
+{
+    "id": "bluesound-test",
+    "name": "Bluesound Test",
+    "shortname": "Bluesound Test",
+    "description": "Test module for Bluesound",
+    "version": "0.1.0",
+    "license": "MIT",
+    "manufacturer": "Bluesound",
+    "products": ["Test"],
+    "keywords": ["bluesound", "test"],
+    "repository": "https://github.com/munkaud/bluesound-b100",
+    "bugs": "https://github.com/munkaud/bluesound-b100/issues",
+    "maintainers": [
+      {
+        "name": "Matthew Unkenholz",
+        "email": "munkaud+bc@gmail.com"
+      }
+    ],
+    "legacyIds": ["bluesound", "bluesound-pro"],
+    "runtime": {
+      "type": "node18",
+      "api": "nodejs-ipc",
+      "apiVersion": "1.0.0",
+      "entrypoint": "../main.js",
+      "companion": ">=3.0.0"
+    }
+  }
