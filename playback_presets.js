@@ -131,7 +131,7 @@ module.exports = (self) => [
         category: 'Volume Controls',
         name: 'Set Volume 50',
         style: {
-            text: 'Vol 50\n🎚️',
+            text: 'Set Vol to: \n🎚️',
             size: '14',
             color: '16777215',
             bgcolor: '0',
