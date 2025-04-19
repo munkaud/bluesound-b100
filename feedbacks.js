@@ -8,7 +8,7 @@ module.exports = (self) => ({
     callback: () => {
       return self.state.playing
         ? { text: 'Playing ⏯️', bgcolor: combineRgb(34, 139, 34), color: combineRgb(255, 255, 255) }
-        : { text: 'Paused ⏯️', bgcolor: combineRgb(255, 215, 0), color: combineRgb(0, 0, 0) }; // Gold-yellow
+        : { text: 'Paused ⏯️', bgcolor: combineRgb(255, 215, 0), color: combineRgb(0, 0, 0) };
     },
   },
   mute_state: {

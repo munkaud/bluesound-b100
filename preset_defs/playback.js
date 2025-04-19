@@ -1,147 +1,130 @@
-// playback_presets.js
+const { combineRgb } = require('@companion-module/base');
+
 module.exports = (self) => [
-    {
-        type: 'button',
-        category: 'Playback Controls',
-        name: 'Play/Pause',
-        style: {
-            text: 'Play\n/Pause\n⏯️',
-            size: '14',
-            color: '16777215',
-            bgcolor: '0',
-        },
-        steps: [
-            {
-                down: [{ actionId: 'play_pause' }],
-                up: [],
-            },
-        ],
-        feedbacks: [],
+  {
+    type: 'button',
+    category: 'Playback',
+    name: 'Play/Pause',
+    style: {
+      text: 'Play/Pause\n⏯️',
+      size: '14',
+      color: combineRgb(255, 255, 255),
+      bgcolor: combineRgb(0, 0, 0),
     },
-    {
-        type: 'button',
-        category: 'Playback Controls',
-        name: 'Skip',
-        style: {
-            text: 'Next\n⏭️',
-            size: '14',
-            color: '16777215',
-            bgcolor: '0',
-        },
-        steps: [
-            {
-                down: [{ actionId: 'skip' }],
-                up: [],
-            },
-        ],
-        feedbacks: [],
+    steps: [
+      {
+        down: [{ actionId: 'play_pause', options: {} }],
+        up: [],
+      },
+    ],
+    feedbacks: [{ feedbackId: 'play_state', options: {} }],
+  },
+  {
+    type: 'button',
+    category: 'Playback',
+    name: 'Skip',
+    style: {
+      text: 'Next\n⏭️',
+      size: '14',
+      color: combineRgb(255, 255, 255),
+      bgcolor: combineRgb(0, 0, 0),
     },
-    {
-        type: 'button',
-        category: 'Playback Controls',
-        name: 'Back',
-        style: {
-            text: 'Last\n⏮️',
-            size: '14',
-            color: '16777215',
-            bgcolor: '0',
-        },
-        steps: [
-            {
-                down: [{ actionId: 'back' }],
-                up: [],
-            },
-        ],
-        feedbacks: [],
+    steps: [
+      {
+        down: [{ actionId: 'skip', options: {} }],
+        up: [],
+      },
+    ],
+    feedbacks: [],
+  },
+  {
+    type: 'button',
+    category: 'Playback',
+    name: 'Back',
+    style: {
+      text: 'Previous\n⏮️',
+      size: '14',
+      color: combineRgb(255, 255, 255),
+      bgcolor: combineRgb(0, 0, 0),
     },
-    {
-        type: 'button',
-        category: 'Volume Controls',
-        name: 'Volume Up',
-        style: {
-            text: 'Vol +\n🔊',
-            size: '14',
-            color: '16777215',
-            bgcolor: '0',
-        },
-        steps: [
-            {
-                down: [{ actionId: 'volumeUp' }],
-                up: [],
-            },
-        ],
-        feedbacks: [],
+    steps: [
+      {
+        down: [{ actionId: 'back', options: {} }],
+        up: [],
+      },
+    ],
+    feedbacks: [],
+  },
+  {
+    type: 'button',
+    category: 'Volume',
+    name: 'Volume Up',
+    style: {
+      text: 'Vol +\n🔊',
+      size: '14',
+      color: combineRgb(255, 255, 255),
+      bgcolor: combineRgb(0, 0, 0),
     },
-    {
-        type: 'button',
-        category: 'Volume Controls',
-        name: 'Volume Down',
-        style: {
-            text: 'Vol -\n🔉',
-            size: '14',
-            color: '16777215',
-            bgcolor: '0',
-        },
-        steps: [
-            {
-                down: [{ actionId: 'volumeDown' }],
-                up: [],
-            },
-        ],
-        feedbacks: [],
+    steps: [
+      {
+        down: [{ actionId: 'volume_up', options: {} }],
+        up: [],
+      },
+    ],
+    feedbacks: [{ feedbackId: 'mute_state', options: {} }],
+  },
+  {
+    type: 'button',
+    category: 'Volume',
+    name: 'Volume Down',
+    style: {
+      text: 'Vol -\n🔉',
+      size: '14',
+      color: combineRgb(255, 255, 255),
+      bgcolor: combineRgb(0, 0, 0),
     },
-    {
-        type: 'button',
-        category: 'Volume Controls',
-        name: 'Mute',
-        style: {
-            text: 'Mute\n🔇',
-            size: '14',
-            color: '16777215',
-            bgcolor: '0',
-        },
-        steps: [
-            {
-                down: [{ actionId: 'muteToggle', options: { mute: 1 } }],
-                up: [],
-            },
-        ],
-        feedbacks: [],
+    steps: [
+      {
+        down: [{ actionId: 'volume_down', options: {} }],
+        up: [],
+      },
+    ],
+    feedbacks: [{ feedbackId: 'mute_state', options: {} }],
+  },
+  {
+    type: 'button',
+    category: 'Volume',
+    name: 'Mute/Unmute',
+    style: {
+      text: 'Mute\n🔇',
+      size: '14',
+      color: combineRgb(255, 255, 255),
+      bgcolor: combineRgb(0, 0, 0),
     },
-    {
-        type: 'button',
-        category: 'Volume Controls',
-        name: 'Unmute',
-        style: {
-            text: 'Unmute\n🔈',
-            size: '14',
-            color: '16777215',
-            bgcolor: '0',
-        },
-        steps: [
-            {
-                down: [{ actionId: 'muteToggle', options: { mute: 0 } }],
-                up: [],
-            },
-        ],
-        feedbacks: [],
+    steps: [
+      {
+        down: [{ actionId: 'mute_toggle', options: { mute: self.state.mute === 1 ? 0 : 1 } }],
+        up: [],
+      },
+    ],
+    feedbacks: [{ feedbackId: 'mute_state', options: {} }],
+  },
+  {
+    type: 'button',
+    category: 'Volume',
+    name: 'Set Volume 50',
+    style: {
+      text: 'Vol 50\n🎚️',
+      size: '14',
+      color: combineRgb(255, 255, 255),
+      bgcolor: combineRgb(0, 0, 0),
     },
-    {
-        type: 'button',
-        category: 'Volume Controls',
-        name: 'Set Volume 50',
-        style: {
-            text: 'Set Vol to: \n🎚️',
-            size: '14',
-            color: '16777215',
-            bgcolor: '0',
-        },
-        steps: [
-            {
-                down: [{ actionId: 'setVolume', options: { level: 50 } }],
-                up: [],
-            },
-        ],
-        feedbacks: [],
-    },
+    steps: [
+      {
+        down: [{ actionId: 'set_volume', options: { level: 50 } }],
+        up: [],
+      },
+    ],
+    feedbacks: [{ feedbackId: 'mute_state', options: {} }],
+  },
 ];

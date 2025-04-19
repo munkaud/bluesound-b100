@@ -1,6 +1,5 @@
 const { InstanceBase, InstanceStatus, runEntrypoint } = require('@companion-module/base');
-const { parseStringPromise } = require('xml2js');
-const fetch = require('node-fetch');
+const connection = require('./connection');
 
 class BluesoundInstance extends InstanceBase {
   constructor(internal) {
@@ -13,7 +12,7 @@ class BluesoundInstance extends InstanceBase {
   }
 
   async init(config) {
-    this.config = config || { host: '192.168.100.1', port: 11000 };
+    this.config = config || { host: '192.168.100.1', port: 11001 };
     this.updateStatus(InstanceStatus.Connecting);
     this.setActionDefinitions(require('./actions')(this));
     this.setFeedbackDefinitions(require('./feedbacks')(this));
@@ -36,8 +35,8 @@ class BluesoundInstance extends InstanceBase {
 
   getConfigFields() {
     return [
-      { type: 'textinput', id: 'host', label: 'B100 IP Address', width: 6, default: '192.168.12.208', required: true },
-      { type: 'number', id: 'port', label: 'Port', default: 11000, min: 1, max: 65535, required: true }
+      { type: 'textinput', id: 'host', label: 'B100 IP Address', width: 6, default: '192.168.100.1', required: true },
+      { type: 'number', id: 'port', label: 'Port', default: 11001, min: 1, max: 65535, required: true }
     ];
   }
 
@@ -48,13 +47,8 @@ class BluesoundInstance extends InstanceBase {
     if (this.config.host && this.config.port) {
       this.pollTimer = setInterval(async () => {
         try {
-          const response = await fetch(`http://${this.config.host}:${this.config.port}/Status`);
-          if (!response.ok) {
-            throw new Error(`HTTP ${response.status}`);
-          }
-          const xml = await response.text();
-          const data = await parseStringPromise(xml);
-          const status = data.status || {};
+          const data = await connection.sendCommand(this, '/Status');
+          const status = data?.status || {};
           this.state.volume = parseInt(status.volume?.[0]?._ || 0);
           this.state.mute = parseInt(status.volume?.[0]?.$?.mute || 0);
           this.state.playing = status.state?.[0] === 'play';

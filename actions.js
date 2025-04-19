@@ -1,33 +1,11 @@
-// actions.js
-
-const { parseStringPromise } = require('xml2js');
-const fetch = require('node-fetch');
-
-async function sendCommand(self, command) {
-  try {
-    const url = `http://${self.config.host}:${self.config.port}${command}`;
-    self.log('debug', `Sending command: ${url}`);
-    const response = await fetch(url);
-    if (!response.ok) {
-      self.log('error', `Failed to send command: ${response.statusText} (${response.status})`);
-      return null;
-    }
-    const xml = await response.text();
-    const json = await parseStringPromise(xml);
-    self.log('debug', `Received: ${JSON.stringify(json)}`);
-    return json;
-  } catch (err) {
-    self.log('error', `Network error: ${err.message}`);
-    return null;
-  }
-}
+const connection = require('./connection');
 
 module.exports = (self) => ({
   play_pause: {
     name: 'Play/Pause',
     options: [],
     callback: async () => {
-      const data = await sendCommand(self, '/Pause?toggle=1');
+      const data = await connection.sendCommand(self, '/Pause?toggle=1');
       if (data?.state) {
         self.state.playing = data.state === 'play';
         self.checkFeedbacks('play_state');
@@ -38,21 +16,24 @@ module.exports = (self) => ({
     name: 'Skip',
     options: [],
     callback: async () => {
-      await sendCommand(self, '/Skip');
+      await connection.sendCommand(self, '/Skip');
     },
   },
   back: {
     name: 'Back',
     options: [],
     callback: async () => {
-        await sendCommand(self, '/Back');
+      const data = await connection.sendCommand(self, '/Back');
+      if (data?.error) {
+        self.log('warn', `Back failed: ${data.error}`);
+      }
     },
-},
+  },
   volume_up: {
     name: 'Volume Up',
     options: [],
     callback: async () => {
-      const data = await sendCommand(self, '/Volume?up');
+      const data = await connection.sendCommand(self, '/Volume?up');
       if (data?.volume?.[0]?._) {
         self.state.volume = parseInt(data.volume[0]._ || self.state.volume);
         self.state.mute = parseInt(data.volume[0].$.mute || self.state.mute);
@@ -64,7 +45,7 @@ module.exports = (self) => ({
     name: 'Volume Down',
     options: [],
     callback: async () => {
-      const data = await sendCommand(self, '/Volume?down');
+      const data = await connection.sendCommand(self, '/Back');
       if (data?.volume?.[0]?._) {
         self.state.volume = parseInt(data.volume[0]._ || self.state.volume);
         self.state.mute = parseInt(data.volume[0].$.mute || self.state.mute);
@@ -79,7 +60,7 @@ module.exports = (self) => ({
     ],
     callback: async (event) => {
       const mute = event.options.mute;
-      const data = await sendCommand(self, `/Volume?mute=${mute}`);
+      const data = await connection.sendCommand(self, `/Volume?mute=${mute}`);
       if (data?.volume?.[0]?._) {
         self.state.volume = parseInt(data.volume[0]._ || self.state.volume);
         self.state.mute = parseInt(data.volume[0].$.mute || mute);
@@ -94,7 +75,7 @@ module.exports = (self) => ({
     ],
     callback: async (event) => {
       const level = event.options.level;
-      const data = await sendCommand(self, `/Volume?level=${level}`);
+      const data = await connection.sendCommand(self, `/Volume?level=${level}`);
       if (data?.volume?.[0]?._) {
         self.state.volume = parseInt(data.volume[0]._ || level);
         self.state.mute = parseInt(data.volume[0].$.mute || 0);
@@ -103,4 +84,3 @@ module.exports = (self) => ({
     },
   },
 });
-        
