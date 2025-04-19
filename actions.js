@@ -7,7 +7,7 @@ module.exports = (self) => ({
     callback: async () => {
       const data = await connection.sendCommand(self, '/Pause?toggle=1');
       if (data?.state) {
-        self.state.playing = data.state === 'play';
+        self.state.playing = ['play', 'stream'].includes(data.state);
         self.checkFeedbacks('play_state');
       }
     },
@@ -34,9 +34,9 @@ module.exports = (self) => ({
     options: [],
     callback: async () => {
       const data = await connection.sendCommand(self, '/Volume?up');
-      if (data?.volume?.[0]?._) {
-        self.state.volume = parseInt(data.volume[0]._ || self.state.volume);
-        self.state.mute = parseInt(data.volume[0].$.mute || self.state.mute);
+      if (data?.volume?.[0]) {
+        self.state.volume = parseInt(data.volume[0] || self.state.volume);
+        self.state.mute = parseInt(data.mute?.[0] || self.state.mute);
         self.checkFeedbacks('mute_state');
       }
     },
@@ -45,10 +45,10 @@ module.exports = (self) => ({
     name: 'Volume Down',
     options: [],
     callback: async () => {
-      const data = await connection.sendCommand(self, '/Back');
-      if (data?.volume?.[0]?._) {
-        self.state.volume = parseInt(data.volume[0]._ || self.state.volume);
-        self.state.mute = parseInt(data.volume[0].$.mute || self.state.mute);
+      const data = await connection.sendCommand(self, '/Volume?down');
+      if (data?.volume?.[0]) {
+        self.state.volume = parseInt(data.volume[0] || self.state.volume);
+        self.state.mute = parseInt(data.mute?.[0] || self.state.mute);
         self.checkFeedbacks('mute_state');
       }
     },
@@ -61,9 +61,9 @@ module.exports = (self) => ({
     callback: async (event) => {
       const mute = event.options.mute;
       const data = await connection.sendCommand(self, `/Volume?mute=${mute}`);
-      if (data?.volume?.[0]?._) {
-        self.state.volume = parseInt(data.volume[0]._ || self.state.volume);
-        self.state.mute = parseInt(data.volume[0].$.mute || mute);
+      if (data?.volume?.[0]) {
+        self.state.volume = parseInt(data.volume[0] || self.state.volume);
+        self.state.mute = parseInt(data.mute?.[0] || mute);
         self.checkFeedbacks('mute_state');
       }
     },
@@ -76,11 +76,41 @@ module.exports = (self) => ({
     callback: async (event) => {
       const level = event.options.level;
       const data = await connection.sendCommand(self, `/Volume?level=${level}`);
-      if (data?.volume?.[0]?._) {
-        self.state.volume = parseInt(data.volume[0]._ || level);
-        self.state.mute = parseInt(data.volume[0].$.mute || 0);
+      if (data?.volume?.[0]) {
+        self.state.volume = parseInt(data.volume[0] || level);
+        self.state.mute = parseInt(data.mute?.[0] || 0);
         self.checkFeedbacks('mute_state');
       }
+    },
+  },
+  search_service: {
+    name: 'Search Service',
+    options: [
+      {
+        type: 'dropdown',
+        id: 'service',
+        label: 'Service',
+        default: 'TIDAL',
+        choices: [
+          { id: 'TIDAL', label: 'Tidal' },
+          { id: 'SPOTIFY', label: 'Spotify' },
+          { id: 'RadioParadise', label: 'Radio Paradise' }
+        ],
+      },
+      {
+        type: 'textinput',
+        id: 'term',
+        label: 'Search Term',
+        default: ''
+      }
+    ],
+    callback: async (action) => {
+      const service = action.options.service;
+      const term = encodeURIComponent(action.options.term);
+      const data = await connection.sendCommand(self, `/Search?service=${service}&query=${term}`, 80);
+      self.state.searchResults = data?.search?.item || [];
+      self.log('info', `Found ${self.state.searchResults.length} results`);
+      self.checkFeedbacks('search_results');
     },
   },
 });

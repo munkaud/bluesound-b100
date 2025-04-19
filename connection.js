@@ -1,9 +1,10 @@
 const { parseStringPromise } = require('xml2js');
 const fetch = require('node-fetch');
 
-async function sendCommand(self, command) {
+async function sendCommand(self, command, portOverride = null) {
   try {
-    const url = `http://${self.config.host}:${self.config.port}${command}`;
+    const port = portOverride || self.config.port;
+    const url = `http://${self.config.host}:${port}${command}`;
     self.log('debug', `Sending command: ${url}`);
     const response = await fetch(url);
     if (!response.ok) {

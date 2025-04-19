@@ -7,7 +7,8 @@ class BluesoundInstance extends InstanceBase {
     this.state = {
       volume: 0,
       mute: 0,
-      playing: false
+      playing: false,
+      searchResults: []
     };
   }
 
@@ -49,9 +50,9 @@ class BluesoundInstance extends InstanceBase {
         try {
           const data = await connection.sendCommand(this, '/Status');
           const status = data?.status || {};
-          this.state.volume = parseInt(status.volume?.[0]?._ || 0);
-          this.state.mute = parseInt(status.volume?.[0]?.$?.mute || 0);
-          this.state.playing = status.state?.[0] === 'play';
+          this.state.volume = parseInt(status.volume?.[0] || 0);
+          this.state.mute = parseInt(status.mute?.[0] || 0);
+          this.state.playing = ['play', 'stream'].includes(status.state?.[0]);
           this.updateStatus(InstanceStatus.Ok);
           this.checkFeedbacks('play_state', 'mute_state');
           this.log('debug', `Status: volume=${this.state.volume}, mute=${this.state.mute}, playing=${this.state.playing}`);
@@ -59,7 +60,7 @@ class BluesoundInstance extends InstanceBase {
           this.updateStatus(InstanceStatus.Error, 'API Error');
           this.log('error', `Poll Error: ${err.message}`);
         }
-      }, 1000);
+      }, 5000);
     } else {
       this.updateStatus(InstanceStatus.BadConfig);
       this.log('error', 'Configuration incomplete');

@@ -127,4 +127,22 @@ module.exports = (self) => [
     ],
     feedbacks: [{ feedbackId: 'mute_state', options: {} }],
   },
+  {
+    type: 'button',
+    category: 'Search',
+    name: 'Search Tidal',
+    style: {
+      text: 'Search Tidal\n🔍',
+      size: '14',
+      color: combineRgb(255, 255, 255),
+      bgcolor: combineRgb(0, 0, 0),
+    },
+    steps: [
+      {
+        down: [{ actionId: 'search_service', options: { service: 'TIDAL', term: 'The Beatles' } }],
+        up: [],
+      },
+    ],
+    feedbacks: [{ feedbackId: 'search_results', options: {} }],
+  },
 ];
