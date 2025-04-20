@@ -60,7 +60,7 @@ module.exports = (self) => [
     category: 'Volume',
     name: 'Volume Up',
     style: {
-      text: '⬆️',
+      text: 'Vol ⬆️',
       size: '18',
       color: combineRgb(255, 255, 255),
       bgcolor: combineRgb(0, 0, 0),
@@ -78,7 +78,7 @@ module.exports = (self) => [
     category: 'Volume',
     name: 'Volume Down',
     style: {
-      text: '⬇️',
+      text: 'Vol ⬇️',
       size: '18',
       color: combineRgb(255, 255, 255),
       bgcolor: combineRgb(0, 0, 0),
@@ -96,8 +96,8 @@ module.exports = (self) => [
     category: 'Volume',
     name: 'Mute/Unmute',
     style: {
-      text: '🔇',
-      size: '18',
+      text: 'Mute\n🔇',
+      size: '14',
       color: combineRgb(255, 255, 255),
       bgcolor: combineRgb(0, 0, 0),
     },
@@ -158,6 +158,24 @@ module.exports = (self) => [
     steps: [
       {
         down: [{ actionId: 'set_volume', options: { level: 75 } }],
+        up: [],
+      },
+    ],
+    feedbacks: [],
+  },
+  {
+    type: 'button',
+    category: 'Volume',
+    name: 'Set Volume',
+    style: {
+      text: 'Set Vol\n🎚️',
+      size: '14',
+      color: combineRgb(255, 255, 255),
+      bgcolor: combineRgb(0, 0, 0),
+    },
+    steps: [
+      {
+        down: [{ actionId: 'set_volume', options: { level: 50 } }],
         up: [],
       },
     ],
