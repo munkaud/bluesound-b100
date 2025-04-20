@@ -60,7 +60,7 @@ class BluesoundInstance extends InstanceBase {
 
   async fetchStatus() {
     const now = Date.now();
-    if (now - this.lastStatusPoll < 2000) {
+    if (now - this.lastStatusPoll < 3000) {
       this.log('debug', 'Skipping status poll due to recent request');
       return;
     }

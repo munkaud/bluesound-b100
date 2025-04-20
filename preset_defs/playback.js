@@ -114,7 +114,7 @@ module.exports = (self) => [
     category: 'Volume',
     name: 'Set Volume 25',
     style: {
-      text: 'Vol 25\n🎚️',
+      text: 'Vol = 25\n🎚️',
       size: '14',
       color: combineRgb(255, 255, 255),
       bgcolor: combineRgb(0, 0, 0),
@@ -132,7 +132,7 @@ module.exports = (self) => [
     category: 'Volume',
     name: 'Set Volume 50',
     style: {
-      text: 'Vol 50\n🎚️',
+      text: 'Vol = 50\n🎚️',
       size: '14',
       color: combineRgb(255, 255, 255),
       bgcolor: combineRgb(0, 0, 0),
@@ -150,7 +150,7 @@ module.exports = (self) => [
     category: 'Volume',
     name: 'Set Volume 75',
     style: {
-      text: 'Vol 75\n🎚️',
+      text: 'Vol = 75\n🎚️',
       size: '14',
       color: combineRgb(255, 255, 255),
       bgcolor: combineRgb(0, 0, 0),
@@ -168,7 +168,7 @@ module.exports = (self) => [
     category: 'Volume',
     name: 'Set Volume',
     style: {
-      text: 'Set Vol\n🎚️',
+      text: 'Vol = x\n🎚️',
       size: '14',
       color: combineRgb(255, 255, 255),
       bgcolor: combineRgb(0, 0, 0),
