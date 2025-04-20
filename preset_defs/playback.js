@@ -94,7 +94,7 @@ module.exports = (self) => [
   {
     type: 'button',
     category: 'Volume',
-    name: 'Mute/Unmute',
+    name: 'Mute',
     style: {
       text: 'Mute\n🔇',
       size: '14',
@@ -103,11 +103,29 @@ module.exports = (self) => [
     },
     steps: [
       {
-        down: [{ actionId: 'mute_toggle', options: { mute: self.state.mute === 1 ? 0 : 1 } }],
+        down: [{ actionId: 'mute_on', options: {} }],
         up: [],
       },
     ],
     feedbacks: [{ feedbackId: 'mute_state', options: {} }],
+  },
+  {
+    type: 'button',
+    category: 'Volume',
+    name: 'Unmute',
+    style: {
+      text: 'Unmute\n🔉',
+      size: '14',
+      color: combineRgb(255, 255, 255),
+      bgcolor: combineRgb(0, 0, 0),
+    },
+    steps: [
+      {
+        down: [{ actionId: 'mute_off', options: {} }],
+        up: [],
+      },
+    ],
+    feedbacks: [{ feedbackId: 'unmute_state', options: {} }],
   },
   {
     type: 'button',

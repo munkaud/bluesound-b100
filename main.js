@@ -60,7 +60,7 @@ class BluesoundInstance extends InstanceBase {
 
   async fetchStatus() {
     const now = Date.now();
-    if (now - this.lastStatusPoll < 3000) {
+    if (now - this.lastStatusPoll < 5000) {
       this.log('debug', 'Skipping status poll due to recent request');
       return;
     }
@@ -73,7 +73,7 @@ class BluesoundInstance extends InstanceBase {
       this.state.playing = ['play', 'stream'].includes(status.state?.[0]);
       this.state.service = status.service?.[0] || '';
       this.updateStatus(InstanceStatus.Ok);
-      this.checkFeedbacks('play_state', 'mute_state');
+      this.checkFeedbacks('play_state', 'mute_state', 'unmute_state');
       this.log('debug', `Status: volume=${this.state.volume}, mute=${this.state.mute}, playing=${this.state.playing}, service=${this.state.service}`);
     } catch (err) {
       this.updateStatus(InstanceStatus.Error, 'API Error');

@@ -17,8 +17,18 @@ module.exports = (self) => ({
     options: [],
     callback: () => {
       return self.state.mute === 1
-        ? { text: 'Mute 🔇', bgcolor: combineRgb(139, 0, 0), color: combineRgb(255, 255, 255) }
-        : { text: 'Unmute 🔉', bgcolor: combineRgb(34, 139, 34), color: combineRgb(255, 255, 255) };
+        ? { text: 'Mute 🔇', bgcolor: combineRgb(0, 0, 0), color: combineRgb(255, 255, 255) }
+        : { text: 'Mute 🔇', bgcolor: combineRgb(34, 139, 34), color: combineRgb(255, 255, 255) };
+    },
+  },
+  unmute_state: {
+    type: 'advanced',
+    label: 'Unmute State',
+    options: [],
+    callback: () => {
+      return self.state.mute === 1
+        ? { text: 'Unmute 🔉', bgcolor: combineRgb(139, 0, 0), color: combineRgb(255, 255, 255) }
+        : { text: 'Unmute 🔉', bgcolor: combineRgb(0, 0, 0), color: combineRgb(255, 255, 255) };
     },
   },
   search_results: {
