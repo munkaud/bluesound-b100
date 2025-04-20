@@ -60,8 +60,8 @@ module.exports = (self) => [
     category: 'Volume',
     name: 'Volume Up',
     style: {
-      text: 'Vol +\n🔊',
-      size: '14',
+      text: '⬆️',
+      size: '18',
       color: combineRgb(255, 255, 255),
       bgcolor: combineRgb(0, 0, 0),
     },
@@ -71,15 +71,15 @@ module.exports = (self) => [
         up: [],
       },
     ],
-    feedbacks: [{ feedbackId: 'mute_state', options: {} }],
+    feedbacks: [],
   },
   {
     type: 'button',
     category: 'Volume',
     name: 'Volume Down',
     style: {
-      text: 'Vol -\n🔉',
-      size: '14',
+      text: '⬇️',
+      size: '18',
       color: combineRgb(255, 255, 255),
       bgcolor: combineRgb(0, 0, 0),
     },
@@ -89,15 +89,15 @@ module.exports = (self) => [
         up: [],
       },
     ],
-    feedbacks: [{ feedbackId: 'mute_state', options: {} }],
+    feedbacks: [],
   },
   {
     type: 'button',
     category: 'Volume',
     name: 'Mute/Unmute',
     style: {
-      text: 'Mute\n🔇',
-      size: '14',
+      text: '🔇',
+      size: '18',
       color: combineRgb(255, 255, 255),
       bgcolor: combineRgb(0, 0, 0),
     },
@@ -108,6 +108,24 @@ module.exports = (self) => [
       },
     ],
     feedbacks: [{ feedbackId: 'mute_state', options: {} }],
+  },
+  {
+    type: 'button',
+    category: 'Volume',
+    name: 'Set Volume 25',
+    style: {
+      text: 'Vol 25\n🎚️',
+      size: '14',
+      color: combineRgb(255, 255, 255),
+      bgcolor: combineRgb(0, 0, 0),
+    },
+    steps: [
+      {
+        down: [{ actionId: 'set_volume', options: { level: 25 } }],
+        up: [],
+      },
+    ],
+    feedbacks: [],
   },
   {
     type: 'button',
@@ -125,7 +143,43 @@ module.exports = (self) => [
         up: [],
       },
     ],
-    feedbacks: [{ feedbackId: 'mute_state', options: {} }],
+    feedbacks: [],
+  },
+  {
+    type: 'button',
+    category: 'Volume',
+    name: 'Set Volume 75',
+    style: {
+      text: 'Vol 75\n🎚️',
+      size: '14',
+      color: combineRgb(255, 255, 255),
+      bgcolor: combineRgb(0, 0, 0),
+    },
+    steps: [
+      {
+        down: [{ actionId: 'set_volume', options: { level: 75 } }],
+        up: [],
+      },
+    ],
+    feedbacks: [],
+  },
+  {
+    type: 'button',
+    category: 'Service',
+    name: 'Switch to Tidal',
+    style: {
+      text: 'Tidal\n🎵',
+      size: '14',
+      color: combineRgb(255, 255, 255),
+      bgcolor: combineRgb(0, 0, 0),
+    },
+    steps: [
+      {
+        down: [{ actionId: 'switch_service', options: { service: 'TIDAL' } }],
+        up: [],
+      },
+    ],
+    feedbacks: [],
   },
   {
     type: 'button',

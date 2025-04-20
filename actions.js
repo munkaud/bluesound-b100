@@ -83,6 +83,32 @@ module.exports = (self) => ({
       }
     },
   },
+  switch_service: {
+    name: 'Switch Service',
+    options: [
+      {
+        type: 'dropdown',
+        id: 'service',
+        label: 'Service',
+        default: 'TIDAL',
+        choices: [
+          { id: 'TIDAL', label: 'Tidal' },
+          { id: 'SPOTIFY', label: 'Spotify' },
+          { id: 'RadioParadise', label: 'Radio Paradise' }
+        ],
+      },
+    ],
+    callback: async (action) => {
+      const service = action.options.service;
+      const data = await connection.sendCommand(self, `/Service?service=${service}`);
+      if (data?.service) {
+        self.state.service = data.service;
+        self.log('info', `Switched to service: ${self.state.service}`);
+      } else {
+        self.log('error', `Failed to switch to ${service}`);
+      }
+    },
+  },
   search_service: {
     name: 'Search Service',
     options: [
@@ -107,6 +133,11 @@ module.exports = (self) => ({
     callback: async (action) => {
       const service = action.options.service;
       const term = encodeURIComponent(action.options.term);
+      if (self.state.service !== service) {
+        await connection.sendCommand(self, `/Service?service=${service}`);
+        self.state.service = service;
+        self.log('info', `Switched to service: ${service}`);
+      }
       const data = await connection.sendCommand(self, `/Search?service=${service}&query=${term}`, 80);
       self.state.searchResults = data?.search?.item || [];
       self.log('info', `Found ${self.state.searchResults.length} results`);
